@@ -1,0 +1,5 @@
+# Barnet Borough Council Budget Data
+
+This repository contains a cleaned up version of Barnet Borough Council's 2009
+budget data, and a JSON Model to enable loading of the data file into
+[OpenSpending](http://openspending.org).
