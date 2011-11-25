@@ -1,97 +1,116 @@
 {
-  "dataset": {
-    "name": "barnet-budget",
-    "label": "UK Barnet Council budget", 
-    "description": "Consolidated spending information from Barnet Borough Council",
-    "currency": "GBP",
-    "temporal_granularity": "year",
-    "unique_keys": ["unique_id"]
-  },
-  "mapping": {
-    "amount": {
-      "type": "value",
-      "label": "Amount",
-      "column": "Amount",
-      "datatype": "float"
-    },
-    "description": {
-      "type": "value",
-      "label": "Description",
-      "description": "A short description of the entry",
-      "column": "Detailed Description",
-      "datatype": "string"
-    },
-    "time": {
-      "type": "value",
-      "label": "Year",
-      "column": "Year",
-      "datatype": "date"
-    },
-    "from": {
-      "type": "entity",
-      "label": "Spender",
-      "fields": [ 
-        { "constant": "Barnet Council", "name": "label", "datatype": "constant" }
-      ]
-    },
-    "to": {
-      "type": "entity",
-      "label": "Recipient",
-      "fields": [
-        { "constant": "Society (Barnet)", "name": "label", "datatype": "constant" }
-      ]
-    },
-    "level1": {
-      "type": "classifier",
-      "label": "Barnet Level 1",
-      "description": "Barnet Council Level 1 spending classification",
-      "fields": [
-        { "column": "Level 1", "name": "label", "datatype": "string" }
-      ],
-      "taxonomy": "barnet-level-1"
-    },
-    "level2": {
-      "type": "classifier",
-      "label": "Barnet Level 2",
-      "description": "Barnet Council Level 2 spending classification",
-      "fields": [
-        { "column": "Level 2", "name": "label", "datatype": "string" }
-      ],
-      "taxonomy": "barnet-level-2"
-    },
-    "level3": {
-      "type": "classifier",
-      "label": "Barnet Level 3",
-      "description": "Barnet Council Level 3 spending classification (may be empty)",
-      "fields": [
-        { "column": "Level 3", "name": "label", "datatype": "string" }
-      ],
-      "taxonomy": "barnet-level-3"
-    },
-    "unique_id": {
-      "label": "Unique ID", 
-      "description": "Unique transaction ID", 
-      "column": "unique_id",
-      "datatype": "string", 
-      "type": "value"
-    } 
-  },
   "views": [
     {
-      "entity": "dataset",
-      "label": "Spending by Level 1",
-      "name": "default",
-      "dimension": "dataset",
-      "breakdown": "level1",
-      "filters": {"name": "barnet-budget"}           
-    },
+      "drilldown": "level1", 
+      "name": "default", 
+      "label": "Spending by Level 1", 
+      "entity": "dataset", 
+      "dimension": "dataset"
+    }, 
     {
-      "entity": "classifier",
-      "label": "Spending by Level 2",
-      "name": "default",
-      "dimension": "level1",
-      "breakdown": "level2",
-      "filters": {"taxonomy": "barnet-level-1"}           
+      "drilldown": "level2", 
+      "name": "default", 
+      "label": "Spending by Level 2", 
+      "filters": {
+        "taxonomy": "barnet-level-1"
+      }, 
+      "entity": "dimension", 
+      "dimension": "level1"
     }
-  ]
+  ], 
+  "mapping": {
+    "description": {
+      "column": "Detailed Description", 
+      "datatype": "string", 
+      "type": "attribute", 
+      "description": "A short description of the entry", 
+      "label": "Description"
+    }, 
+    "level2": {
+      "fields": [
+        {
+          "column": "Level 2", 
+          "datatype": "string", 
+          "default_value": "(Undefined)",
+          "name": "label"
+        }, 
+        {
+          "datatype": "id", 
+          "column": "Level 2",
+          "default_value": "undefined",
+          "name": "name"
+        }
+      ], 
+      "type": "compound", 
+      "description": "Barnet Council Level 2 spending classification", 
+      "taxonomy": "barnet-level-2", 
+      "label": "Barnet Level 2"
+    }, 
+    "level1": {
+      "fields": [
+        {
+          "column": "Level 1", 
+          "datatype": "string", 
+          "name": "label"
+        }, 
+        {
+          "datatype": "id", 
+          "column": "Level 1", 
+          "name": "name"
+        }
+      ], 
+      "type": "compound", 
+      "description": "Barnet Council Level 1 spending classification", 
+      "taxonomy": "barnet-level-1", 
+      "label": "Barnet Level 1"
+    }, 
+    "amount": {
+      "column": "Amount", 
+      "datatype": "float", 
+      "type": "measure", 
+      "label": "Amount"
+    }, 
+    "level3": {
+      "fields": [
+        {
+          "column": "Level 3", 
+          "datatype": "string", 
+          "default_value": "(Undefined)",
+          "name": "label"
+        }, 
+        {
+          "datatype": "id", 
+          "column": "Level 3", 
+          "default_value": "undefined",
+          "name": "name"
+        }
+      ], 
+      "type": "compound", 
+      "description": "Barnet Council Level 3 spending classification (may be empty)", 
+      "taxonomy": "barnet-level-3", 
+      "label": "Barnet Level 3"
+    }, 
+    "time": {
+      "column": "Year", 
+      "datatype": "date", 
+      "type": "date", 
+      "label": "Year"
+    }, 
+    "unique_id": {
+      "description": "Unique transaction ID", 
+      "column": "unique_id", 
+      "label": "Unique ID", 
+      "datatype": "string", 
+      "key": true, 
+      "type": "attribute"
+    }
+  }, 
+  "dataset": {
+    "description": "Consolidated spending information from Barnet Borough Council", 
+    "temporal_granularity": "year", 
+    "schema_version": "2011-11-22", 
+    "name": "uk-barnet-budget", 
+    "currency": "GBP", 
+    "label": "UK Barnet Council budget"
+  }
 }
